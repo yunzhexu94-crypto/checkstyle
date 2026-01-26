@@ -78,4 +78,3 @@ Assuming `max = 30`:
 | `TC02` | Class with 30 methods | P2 | No Violations | Boundary case at limit |
 | `TC03` | Class with 31 methods | P3 | 1 Violation | Invalid case exceeding limit |
 | `TC04` | Class with 0 methods | P4 | No Violations | Edge case empty class |
-
