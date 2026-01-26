@@ -1,8 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api, buildUrl } from "@shared/routes";
-import { type InsertReport } from "@shared/schema";
+import { z } from "zod";
 
-// GET /api/reports
+// Types derived from schema
+export type ReportInput = z.infer<typeof api.reports.create.input>;
+export type ReportResponse = z.infer<typeof api.reports.list.responses[200]>[number];
+
 export function useReports() {
   return useQuery({
     queryKey: [api.reports.list.path],
@@ -14,7 +17,6 @@ export function useReports() {
   });
 }
 
-// GET /api/reports/:id
 export function useReport(id: number) {
   return useQuery({
     queryKey: [api.reports.get.path, id],
@@ -25,15 +27,13 @@ export function useReport(id: number) {
       if (!res.ok) throw new Error("Failed to fetch report");
       return api.reports.get.responses[200].parse(await res.json());
     },
-    enabled: !!id,
   });
 }
 
-// POST /api/reports
 export function useCreateReport() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (data: InsertReport) => {
+    mutationFn: async (data: ReportInput) => {
       const res = await fetch(api.reports.create.path, {
         method: api.reports.create.method,
         headers: { "Content-Type": "application/json" },
@@ -42,10 +42,12 @@ export function useCreateReport() {
       
       if (!res.ok) {
         if (res.status === 400) {
-          throw new Error("Invalid report data");
+          const error = await res.json();
+          throw new Error(error.message || "Validation failed");
         }
         throw new Error("Failed to create report");
       }
+      
       return api.reports.create.responses[201].parse(await res.json());
     },
     onSuccess: () => {

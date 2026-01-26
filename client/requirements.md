@@ -1,8 +1,10 @@
 ## Packages
 prism-react-renderer | Syntax highlighting for the Java code blocks
-framer-motion | Smooth transitions between report sections
+framer-motion | Smooth transitions and document load animations
+clsx | Utility for constructing className strings conditionally
+tailwind-merge | Utility for merging Tailwind CSS classes safely
 
 ## Notes
-The application is a documentation viewer for SWE 261P.
-It displays a specific hardcoded report about Apache Commons Lang testing as the primary view.
-Standard CRUD hooks are included for the 'reports' table for future extensibility.
+The application acts as a professional report viewer for the Checkstyle project.
+The main report content is structured to look like an academic paper.
+Code blocks use Prism for syntax highlighting.

@@ -9,12 +9,12 @@ function Router() {
   return (
     <Switch>
       {/* 
-        The prompt requests a specific report view. 
-        We serve the ProjectReport page as the home route.
+        Serve the ProjectReport as the index page.
+        This provides immediate access to the Checkstyle report content.
       */}
       <Route path="/" component={ProjectReport} />
       
-      {/* Fallback to 404 */}
+      {/* Fallback route for 404s */}
       <Route component={NotFound} />
     </Switch>
   );

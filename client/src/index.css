@@ -1,80 +1,84 @@
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  /* Academic / Document Theme - Refined & Professional */
-  --font-serif: 'Merriweather', serif;
-  --font-sans: 'Inter', sans-serif;
-  --font-mono: 'Fira Code', monospace;
-
-  /* Paper-like background, crisp dark text */
-  --background: 210 20% 99%;
-  --foreground: 222 47% 15%;
-
-  /* Academic Blue/Slate primary */
-  --primary: 217 91% 60%;
+  /* Academic / Professional Palette */
+  --background: 210 20% 98%;    /* Soft paper-like off-white */
+  --foreground: 222 47% 11%;    /* Deep almost-black for text */
+  
+  --primary: 222 47% 11%;       /* Navy/Black for primary actions matching text */
   --primary-foreground: 210 40% 98%;
-
-  /* Subtle secondary elements */
-  --secondary: 210 40% 96%;
-  --secondary-foreground: 222 47% 25%;
-
-  --muted: 210 40% 96%;
+  
+  --secondary: 210 10% 94%;     /* Subtle gray for secondary backgrounds */
+  --secondary-foreground: 222 47% 11%;
+  
+  --muted: 210 10% 90%;
   --muted-foreground: 215 16% 47%;
-
-  --accent: 217 91% 60%;
+  
+  --accent: 201 96% 32%;        /* Academic blue for links/accents */
   --accent-foreground: 210 40% 98%;
-
+  
   --destructive: 0 84% 60%;
   --destructive-foreground: 210 40% 98%;
 
-  --border: 214 32% 91%;
-  --input: 214 32% 91%;
-  --ring: 221 83% 53%;
-
+  --border: 214 10% 85%;
+  --input: 214 10% 85%;
+  --ring: 222 47% 11%;
+  
   --radius: 0.375rem;
-}
-
-.dark {
-  /* Dark mode equivalent - Slate/Navy tone */
-  --background: 222 47% 11%;
-  --foreground: 210 40% 98%;
-
-  --primary: 217 91% 60%;
-  --primary-foreground: 222 47% 11%;
-
-  --secondary: 217 32% 17%;
-  --secondary-foreground: 210 40% 98%;
-
-  --muted: 217 32% 17%;
-  --muted-foreground: 215 20% 65%;
-
-  --accent: 217 91% 60%;
-  --accent-foreground: 210 40% 98%;
-
-  --destructive: 0 62% 30%;
-  --destructive-foreground: 210 40% 98%;
-
-  --border: 217 32% 17%;
-  --input: 217 32% 17%;
-  --ring: 224 76% 48%;
+  
+  /* Fonts */
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Merriweather', serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
 @layer base {
   body {
-    @apply bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary;
+    @apply bg-background text-foreground antialiased;
     font-family: var(--font-sans);
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-serif);
-    @apply tracking-tight font-bold text-foreground;
+    @apply font-bold tracking-tight text-foreground;
   }
   
   p {
-    @apply leading-relaxed;
+    @apply leading-relaxed text-slate-700;
+  }
+}
+
+/* Custom Scrollbar for document viewer */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-400;
+}
+
+/* Print styles for "PDF" feel */
+@media print {
+  .no-print {
+    display: none;
+  }
+  body {
+    background: white;
+  }
+  .print-break-before {
+    page-break-before: always;
   }
 }
