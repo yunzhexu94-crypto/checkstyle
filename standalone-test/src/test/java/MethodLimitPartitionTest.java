@@ -6,8 +6,7 @@ import java.util.List;
 /**
  * SWE 261P - Partition Testing Assignment
  * Feature: MethodLimitCheck (Simulated for demonstration)
- * 
- * Note: In the real Checkstyle project, this would extend AbstractModuleTestSupport.
+ * This class demonstrates partition testing for a hypothetical method limit checker.
  * Here we simulate the logic to demonstrate the partition testing concept.
  */
 public class MethodLimitPartitionTest {

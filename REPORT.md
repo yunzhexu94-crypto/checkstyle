@@ -69,6 +69,10 @@ Assuming `max = 30`:
 *   P3: 31 methods
 *   P4: 0 methods
 
+
+
+
+
 **New Test Cases (JUnit):**
 *(See accompanying code file `MethodLimitPartitionTest.java` for implementation)*
 
