@@ -1,4 +1,4 @@
-# SWE 261P Project Report: Checkstyle
+# SWE 261P Project Part1 Report: Checkstyle
 **GitHub repository link:** https://github.com/yunzhexu94-crypto/checkstyle
 ## 1. Introduction
 **Software Project:** Checkstyle  
