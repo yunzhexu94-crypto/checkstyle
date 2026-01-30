@@ -65,3 +65,26 @@ The accompanying file `DeclarationOrderFSMTest.java` implements these tests.
 -   It uses `Mockito` to create `DetailAST` nodes.
 -   It manually calls `check.visitToken(ast)` to simulate the traversal.
 -   It asserts that `log()` is called (or not called) based on the expected behavior.
+
+## 5. How to Run the Tests
+
+We have created a standalone Maven environment to run these tests easily.
+
+**Prerequisites:**
+-   Java JDK 11 or higher
+-   Maven
+
+**Instructions:**
+1.  Copy the `standalone-test` directory and the `pom.xml` file.
+2.  Navigate to the `standalone-test` directory.
+3.  Run the tests using Maven:
+    ```bash
+    mvn -f standalone-test/pom.xml test
+    ```
+4.  **Expected Output:**
+    You should see a build success message indicating that 5 tests were run with 0 failures.
+    ```text
+    [INFO] Running com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderFSMTest
+    [INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
+    [INFO] BUILD SUCCESS
+    ```
