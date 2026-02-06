@@ -62,8 +62,8 @@ We verify this model using White-box Unit Testing with **Mockito**. By mocking t
 | Test Case ID | Input Sequence | Transition | Result | Code | Description |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | `TC_FSM_01` | `OBJ` → `STATIC` → `INST` → `CTOR` → `METH` | 1→2→3→4→5 | **Pass** | [View](https://github.com/yunzhexu94-crypto/checkstyle/blob/7f95ebfd6685611cb80a9b7467a82b5a4e10f260/standalone-test/src/test/java/DeclarationOrderFSMTest.java#L117) | Standard valid sequence (All Transitions Forward) |
-| `TC_FSM_02` | `OBJ` → `METH` → `STATIC` | 1→5→2 | **Fail** | [View]([INSERT PERMALINK HERE]) | Invalid: Static Var after Method |
-| `TC_FSM_03` | `OBJ` → `CTOR` → `INST` | 1→4→3 | **Fail** | [View]([INSERT PERMALINK HERE]) | Invalid: Instance Var after Constructor |
+| `TC_FSM_02` | `OBJ` → `METH` → `STATIC` | 1→5→2 | **Fail** | [View](https://github.com/yunzhexu94-crypto/checkstyle/blob/7f95ebfd6685611cb80a9b7467a82b5a4e10f260/standalone-test/src/test/java/DeclarationOrderFSMTest.java#L142) | Invalid: Static Var after Method |
+| `TC_FSM_03` | `OBJ` → `CTOR` → `INST` | 1→4→3 | **Fail** | [View](https://github.com/yunzhexu94-crypto/checkstyle/blob/7f95ebfd6685611cb80a9b7467a82b5a4e10f260/standalone-test/src/test/java/DeclarationOrderFSMTest.java#L158) | Invalid: Instance Var after Constructor |
 | `TC_FSM_04` | `OBJ` → `INST` → `STATIC` | 1→3→2 | **Fail** | [View]([INSERT PERMALINK HERE]) | Invalid: Static Var after Instance Var |
 | `TC_FSM_05` | `OBJ` → `STATIC` → `STATIC` | 2→2 | **Pass** | [View]([INSERT PERMALINK HERE]) | Loop transition (Multiple static vars) |
 
