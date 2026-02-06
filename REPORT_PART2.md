@@ -1,5 +1,12 @@
 # SWE 261P Project Report Part 2: Finite State Machine Testing
-**GitHub repository link:** https://github.com/yunzhexu94-crypto/checkstyle
+
+**Project:** [INSERT GITHUB PROJECT NAME HERE]
+**GitHub Repository:** [INSERT HYPERLINK TO YOUR FORK HERE]
+**Team Members:**
+-   [INSERT MEMBER NAME 1]
+-   [INSERT MEMBER NAME 2]
+-   [INSERT MEMBER NAME 3]
+
 ## 1. Finite Models in Testing
 **Utility of Finite Models:**
 Finite models, such as Finite State Machines (FSMs), are powerful tools for model-based testing. They allow testers to abstract a complex system into a set of finite states and transitions.
@@ -50,41 +57,54 @@ The FSM allows transitions to the *same* state (loop) or a *later* state. Transi
 
 ## 4. Test Cases
 
-We will verify this model using White-box Unit Testing with **Mockito**. By mocking the AST tokens, we can simulate the parser visiting tokens in specific sequences and verify that the `DeclarationOrderCheck` logs errors for invalid transitions.
+We verify this model using White-box Unit Testing with **Mockito**. By mocking the AST tokens, we can simulate the parser visiting tokens in specific sequences and verify that the `DeclarationOrderCheck` logs errors for invalid transitions.
 
-| Test Case ID | Sequence of Inputs (Tokens) | Transition | Expected Result | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| `TC_FSM_01` | `OBJBLOCK` → `STATIC_VAR` → `INSTANCE_VAR` → `CTOR` → `METHOD` | 1→2→3→4→5 | **Pass** | Standard valid sequence (All Transitions Forward) |
-| `TC_FSM_02` | `OBJBLOCK` → `METHOD` → `STATIC_VAR` | 1→5→2 | **Fail** (Violation) | Invalid: Static Var after Method |
-| `TC_FSM_03` | `OBJBLOCK` → `CTOR` → `INSTANCE_VAR` | 1→4→3 | **Fail** (Violation) | Invalid: Instance Var after Constructor |
-| `TC_FSM_04` | `OBJBLOCK` → `INSTANCE_VAR` → `STATIC_VAR` | 1→3→2 | **Fail** (Violation) | Invalid: Static Var after Instance Var |
-| `TC_FSM_05` | `OBJBLOCK` → `STATIC_VAR` → `STATIC_VAR` | 2→2 | **Pass** | Loop transition (Multiple static vars) |
+| Test Case ID | Sequence of Inputs (Tokens) | Transition | Expected Result | GitHub Link | Description |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `TC_FSM_01` | `OBJBLOCK` → `STATIC_VAR` → `INSTANCE_VAR` → `CTOR` → `METHOD` | 1→2→3→4→5 | **Pass** | [Link to testValidFullSequence]([INSERT PERMALINK HERE]) | Standard valid sequence (All Transitions Forward) |
+| `TC_FSM_02` | `OBJBLOCK` → `METHOD` → `STATIC_VAR` | 1→5→2 | **Fail** (Violation) | [Link to testMethodThenStaticVar]([INSERT PERMALINK HERE]) | Invalid: Static Var after Method |
+| `TC_FSM_03` | `OBJBLOCK` → `CTOR` → `INSTANCE_VAR` | 1→4→3 | **Fail** (Violation) | [Link to testCtorThenInstanceVar]([INSERT PERMALINK HERE]) | Invalid: Instance Var after Constructor |
+| `TC_FSM_04` | `OBJBLOCK` → `INSTANCE_VAR` → `STATIC_VAR` | 1→3→2 | **Fail** (Violation) | [Link to testInstanceThenStaticVar]([INSERT PERMALINK HERE]) | Invalid: Static Var after Instance Var |
+| `TC_FSM_05` | `OBJBLOCK` → `STATIC_VAR` → `STATIC_VAR` | 2→2 | **Pass** | [Link to testStaticThenStatic]([INSERT PERMALINK HERE]) | Loop transition (Multiple static vars) |
 
-### **Test Implementation Details:**
-The accompanying file `DeclarationOrderFSMTest.java` implements these tests.
--   It uses `Mockito` to create `DetailAST` nodes.
--   It manually calls `check.visitToken(ast)` to simulate the traversal.
--   It asserts that `log()` is called (or not called) based on the expected behavior.
+### **Example Test Code**
+Below is the implementation of `TC_FSM_02` (`testMethodThenStaticVar`), which verifies that a Static Variable cannot appear after a Method definition.
 
-## 5. How to Run the Tests
+```java
+// TC_FSM_02: Invalid (Method -> Static Var)
+@Test
+public void testMethodThenStaticVar() {
+    // 1. Visit Method
+    DetailAST method = mockMethodDef();
+    spyCheck.visitToken(method);
+    
+    // 2. Visit Static Variable Modifiers
+    DetailAST staticVar = mockVariableDef(true);
+    DetailAST staticMods = staticVar.findFirstToken(TokenTypes.MODIFIERS);
+    spyCheck.visitToken(staticMods);
+    
+    // Assert: Violation logged (MSG_STATIC)
+    // The model expects a transition violation here.
+    verify(spyCheck).log(eq(staticMods), eq(DeclarationOrderCheck.MSG_STATIC));
+}
+```
 
-We have created a standalone Maven environment to run these tests easily.
+## 5. Test Execution Evidence
 
-**Prerequisites:**
--   Java JDK 11 or higher
--   Maven
-
-**Instructions:**
-1.  Copy the `standalone-test` directory and the `pom.xml` file.
-2.  Navigate to the `standalone-test` directory.
-3.  Run the tests using Maven:
+### **How to Run the Tests**
+1.  Ensure you have **Maven** and **Java JDK 11+** installed.
+2.  Navigate to the project root directory.
+3.  Run the tests using the following command:
     ```bash
     mvn -f standalone-test/pom.xml test
     ```
-4.  **Expected Output:**
-    You should see a build success message indicating that 5 tests were run with 0 failures.
-    ```text
-    [INFO] Running com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderFSMTest
-    [INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
-    [INFO] BUILD SUCCESS
-    ```
+
+### **Test Results**
+[INSERT SCREENSHOT OF YOUR IDE OR TERMINAL OUTPUT SHOWING "BUILD SUCCESS" HERE]
+
+*(Example Output)*
+```text
+[INFO] Running com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderFSMTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+```
