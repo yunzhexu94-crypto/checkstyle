@@ -61,7 +61,7 @@ We verify this model using White-box Unit Testing with **Mockito**. By mocking t
 
 | Test Case ID | Sequence of Inputs (Tokens) | Transition | Expected Result | GitHub Link | Description |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `TC_FSM_01` | `OBJBLOCK` → `STATIC_VAR` → `INSTANCE_VAR` → `CTOR` → `METHOD` | 1→2→3→4→5 | **Pass** | [Link to testValidFullSequence]([INSERT PERMALINK HERE]) | Standard valid sequence (All Transitions Forward) |
+| `TC_FSM_01` | `OBJBLOCK` → `STATIC_VAR` → `INSTANCE_VAR` → `CTOR` → `METHOD` | 1→2→3→4→5 | **Pass** | [Link to testValidFullSequence](https://github.com/yunzhexu94-crypto/checkstyle/blob/7f95ebfd6685611cb80a9b7467a82b5a4e10f260/standalone-test/src/test/java/DeclarationOrderFSMTest.java#L117) | Standard valid sequence (All Transitions Forward) |
 | `TC_FSM_02` | `OBJBLOCK` → `METHOD` → `STATIC_VAR` | 1→5→2 | **Fail** (Violation) | [Link to testMethodThenStaticVar]([INSERT PERMALINK HERE]) | Invalid: Static Var after Method |
 | `TC_FSM_03` | `OBJBLOCK` → `CTOR` → `INSTANCE_VAR` | 1→4→3 | **Fail** (Violation) | [Link to testCtorThenInstanceVar]([INSERT PERMALINK HERE]) | Invalid: Instance Var after Constructor |
 | `TC_FSM_04` | `OBJBLOCK` → `INSTANCE_VAR` → `STATIC_VAR` | 1→3→2 | **Fail** (Violation) | [Link to testInstanceThenStaticVar]([INSERT PERMALINK HERE]) | Invalid: Static Var after Instance Var |
