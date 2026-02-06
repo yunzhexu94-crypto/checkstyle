@@ -1,11 +1,11 @@
 # SWE 261P Project Report Part 2: Finite State Machine Testing
 
-**Project:** [INSERT GITHUB PROJECT NAME HERE]
-**GitHub Repository:** [INSERT HYPERLINK TO YOUR FORK HERE]
-**Team Members:**
--   [INSERT MEMBER NAME 1]
--   [INSERT MEMBER NAME 2]
--   [INSERT MEMBER NAME 3]
+**Project:**  Checkstyle
+
+**GitHub Repository:** https://github.com/yunzhexu94-crypto/checkstyle
+
+**Team Members:** [YUNZHE XU]
+
 
 ## 1. Finite Models in Testing
 **Utility of Finite Models:**
