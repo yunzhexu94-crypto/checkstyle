@@ -1,0 +1,34 @@
+Rakib and I just took an initial look at a handful of the submissions for Part 1 and wanted to share some initial feedback to help shape your work for the remaining submissions. 
+
+From this point forward, I require that you submit the following sections as a PDF. If you are writing in another format (such as .md, .docx, .html), please export as a PDF (or similarly, "print as PDF"). 
+
+The PDF should be vector-based, not a bitmap image. For most of you, this will be automatic and you do not need to worry about it. But, we saw some examples of where the entire PDF is an image. The way that you can tell the difference is that you should be able to select text in the PDF (for example, to copy it). If it is a bitmap or image PDF, then it cannot be scanned by TurnItIn. 
+
+The future submissions should include only that section (not the previous sections). I know that we debated this in class, and I left it open to either way. But, now that I think about it more, I think it is better that each submission should be separate (for example, Part 2 should only include the section on FSMs and not include Part 1). The main reason I decided this is that if the future submissions include prior sections, then TurnItIn would identify the prior sections as copies of your earlier submissions.
+
+For each future submission, please include a title page that includes:
+
+The team name / the name of the GitHub project
+
+A hyperlink to your fork of the GitHub project 
+
+The list of the names of all members who are part of your team
+
+Every time that you reference your JUnit test cases, please include a hyperlink to that test method. Here are instructions on how to get such links (these instructions are copied from Google Gemini):
+
+Navigate to the desired file in your GitHub repository.
+
+Select the line(s):
+
+For a single line, click the line number in the gutter to highlight it.
+
+For a range of lines, click the first line number, then hold the Shift key and click the last line number in the range.
+
+Get the permalink: A "..." (kebab horizontal) icon will appear to the left of the selected line(s). Click this icon, and from the drop-down menu, select Copy permalink.
+
+Share the link: The permanent URL (which includes the specific commit SHA) is now on your clipboard and can be pasted anywhere. 
+
+Screenshots, code examples, and/or visual examples are very helpful and are encouraged. For example, if you are describing the existing tests, showing an example test method (with a code listing in the document) and describing it helps to understand how they work. Another example could be a screenshot of your IDE after you ran the test suite to show the results of the test run.
+
+
+We're working hard to get your submissions back to you so that you have personalized feedback, but this is a lot of work. But, at least this initial, general feedback can help guide your subsequent project sections.
