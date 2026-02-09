@@ -102,11 +102,5 @@ public void testMethodThenStaticVar() {
     ```
 
 ### **Test Results**
-[INSERT SCREENSHOT OF YOUR IDE OR TERMINAL OUTPUT SHOWING "BUILD SUCCESS" HERE]
+![image](image.png)
 
-*(Example Output)*
-```text
-[INFO] Running com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderFSMTest
-[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
-[INFO] BUILD SUCCESS
-```
