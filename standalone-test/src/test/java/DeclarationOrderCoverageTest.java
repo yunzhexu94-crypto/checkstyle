@@ -67,11 +67,6 @@ public class DeclarationOrderCoverageTest {
         when(modifiers.getLineNo()).thenReturn(1);
         when(modifiers.getColumnNo()).thenReturn(1);
         
-        // Mock finding the scope token (LITERAL_PUBLIC, LITERAL_PRIVATE, etc)
-        // This relies on ScopeUtil.getScopeFromMods logic or manual inspection
-        // For DeclarationOrderCheck, it often uses ScopeUtil.
-        // We might need to mock findFirstToken for specific modifier types.
-        
         int tokenType = -1;
         if ("public".equals(scopeName)) tokenType = TokenTypes.LITERAL_PUBLIC;
         else if ("protected".equals(scopeName)) tokenType = TokenTypes.LITERAL_PROTECTED;
@@ -81,10 +76,13 @@ public class DeclarationOrderCoverageTest {
             DetailAST modToken = mock(DetailAST.class);
             when(modToken.getType()).thenReturn(tokenType);
             when(modifiers.findFirstToken(tokenType)).thenReturn(modToken);
+            
+            // ScopeUtil likely iterates over children
+            when(modifiers.getFirstChild()).thenReturn(modToken);
+            when(modToken.getNextSibling()).thenReturn(null);
+        } else {
+            when(modifiers.getFirstChild()).thenReturn(null);
         }
-        
-        // Also ensure it returns null for others if needed, but Mockito does that by default for strict stubs?
-        // We are using default mocks, so returns null/0/false.
         
         return modifiers;
     }
@@ -184,63 +182,30 @@ public class DeclarationOrderCoverageTest {
         DetailAST varX = mockVariableDef("x", "private", false);
         spyCheck.visitToken(varX); // Registers "x" in classFieldNames
         
-        // 2. Define field "y" that uses "x" (private -> public, usually invalid access order, but assume valid for this test setup if we want to test forward ref specifically?)
-        // Wait, isForwardReference prevents logging MSG_ACCESS?
-        // Code: if (isStateValid && !ignoreModifiers && !isForwardReference(modifiersAst.getParent())) { log(MSG_ACCESS); }
-        // So if we have an INVALID access order (e.g. Private -> Public), BUT it's a forward reference, it should NOT log.
-        
         // 1. Private field "x"
         DetailAST modsX = varX.findFirstToken(TokenTypes.MODIFIERS);
         spyCheck.visitToken(modsX); 
         
-        // 2. Public field "y" that uses "x"
-        // This is invalid order (Private -> Public).
+        // 2. Public field "y" that uses "x" (Private -> Public is invalid order)
         DetailAST varY = mockVariableDef("y", "public", false);
-        
-        // Mock the initialization: y = x;
-        // isForwardReference looks for IDENT tokens in the definition.
-        // We need to mock findAllTokensOfType or similar.
-        // The code uses: private static Set<DetailAST> getAllTokensOfType(DetailAST ast, int tokenType)
-        // It traverses the AST.
-        // So we need to make varY have children that include an IDENT "x".
-        
         DetailAST modsY = varY.findFirstToken(TokenTypes.MODIFIERS);
         
-        // Construct AST structure for y = x;
-        // VARIABLE_DEF -> MODIFIERS, TYPE, IDENT(y), ASSIGN -> EXPR -> IDENT(x)
-        // But getAllTokensOfType starts from the node passed to it?
-        // processModifiersSubState passes modifiersAst.getParent() (which is VARIABLE_DEF) to isForwardReference.
+        // Construct AST structure so that "y" references "x"
+        // isForwardReference starts traversing from the IDENT of the variable definition ("y")
+        // We need to ensure "x" is reachable from "y" via siblings/children.
+        DetailAST identY = varY.findFirstToken(TokenTypes.IDENT);
         
-        // So we need to link IDENT(x) as a descendant of varY.
         DetailAST identX = mock(DetailAST.class);
         when(identX.getType()).thenReturn(TokenTypes.IDENT);
         when(identX.getText()).thenReturn("x");
         
-        // Set varY's first child/sibling structure to reach identX?
-        // The getAllTokensOfType uses getFirstChild and getNextSibling.
-        // This is hard to mock with simple Mockito unless we set up a full tree.
-        // Or we can use spy on the private method? No, strictly unit testing.
-        
-        // Let's create a simpler tree mock.
-        when(varY.getFirstChild()).thenReturn(identX); // Very simplified, usually it's deeply nested
+        // Simplify: make "x" a sibling of "y" (e.g. simulating y = x)
+        when(identY.getNextSibling()).thenReturn(identX);
         when(identX.getNextSibling()).thenReturn(null);
         when(identX.getFirstChild()).thenReturn(null);
         
         // Trigger the check
         spyCheck.visitToken(modsY);
-        
-        // Should NOT log because "x" is found in "y"'s definition, making it a forward reference?
-        // Wait, "isForwardReference" checks if "an identifier references a field which has been ALREADY defined".
-        // If "x" is already defined, and "y" references "x", is that a forward reference?
-        // Usually "Forward Reference" means referencing something that is NOT YET defined.
-        // The JavaDoc says: "Checks whether an identifier references a field which has been already defined in class."
-        // And the check skips validation if `isForwardReference` is true.
-        // Example in JavaDoc:
-        // private double x = 1.0;
-        // private double y = 2.0;
-        // public double slope = x / y; // Skipped
-        // Here `slope` (public) comes after `x` and `y` (private). This violates Private -> Public order.
-        // But because `slope` references `x` and `y` (which are already defined), it is skipped.
         
         verify(spyCheck, never()).log(any(DetailAST.class), eq(DeclarationOrderCheck.MSG_ACCESS));
     }
