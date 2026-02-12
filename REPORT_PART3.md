@@ -85,5 +85,5 @@ The new tests successfully covered:
 3.  **Complex AST Traversal:** The `testForwardReference` case exercised the `isForwardReference` and `getAllTokensOfType` methods, which involve recursive or iterative traversal of the Abstract Syntax Tree to find dependencies between variables.
 
 ### Evidence
-[INSERT SCREENSHOT OF JACOCO COVERAGE REPORT HERE]
+![image](image_2.png)
 
